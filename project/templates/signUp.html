@@ -1,0 +1,33 @@
+{% extends 'auth.html' %}
+
+{% load static %}
+
+{% block title %}signUp{% endblock %}
+
+{% block auth-content %}
+<form method="post" name="signUp">
+
+    {% csrf_token %}
+    <img src="{% static "img/avatar.svg" %}">
+    <h2 class="title">signUp</h2>
+    {% for field in form %}
+        <div class="input-div one">
+            <div class="i">
+                {% if field.name == 'username' %}
+                    <i class="fas fa-user"></i>
+                {% else %}
+                    <i class="fas fa-lock"></i>
+                {% endif %}
+            </div>
+            
+            <div class="div">
+                <h5>{{field.name}}</h5>
+                {{field}}
+            </div>
+        </div>
+    {% endfor %}
+    <a href="{% url 'signIn' %}">Have account?</a>
+    <input type="submit" class="btn" value="Login">
+
+</form>
+{% endblock %}

@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.views import LoginView, logout_then_login
+from django.contrib.auth.decorators import login_required
+from documents.views import home
+from loginAndRegister.views import signUp
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/login/", LoginView.as_view(template_name="signIn.html"), name="signIn"),
+    path("accounts/logout/", logout_then_login, name="logout"),
+    path("register/", signUp, name="signUp"),
+    path("", home, name="home"),
+    path("document/", home, name="home"),
 ]
