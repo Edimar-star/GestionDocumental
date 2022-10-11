@@ -35,6 +35,8 @@ def home(request):
         "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"}
     ]
 
+    #print("Username:", request.user.username)
+    #print("Password:", request.user.password)
     return render(request, 'products.html', {"products" : products})
 
 def orders(request):

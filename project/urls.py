@@ -26,7 +26,7 @@ urlpatterns = [
     path("accounts/login/", LoginView.as_view(template_name="signIn.html"), name="signIn"),
     path("accounts/logout/", logout_then_login, name="logout"),
     path("register/", signUp, name="signUp"),
-    path("", home, name="home"),
-    path("history/", orders, name="history"),
-    path("admins/", admins, name="admins"),
+    path("", login_required(home), name="home"),
+    path("history/", login_required(orders), name="history"),
+    path("admins/", login_required(admins), name="admins"),
 ]

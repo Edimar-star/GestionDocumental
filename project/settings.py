@@ -17,7 +17,7 @@ from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+#git config --global --unset credential.helper
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -28,7 +28,7 @@ SECRET_KEY = "django-insecure-oe)pqik7s4qau_s&%i0zw_s3uxpby#^$^-c#bmlp@16sj%27tt
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CSRF_TRUSTED_ORIGINS = ["https://*.gitpod.io", "https://localhost", "https://127.0.0.1"]
 
 # Application definition
 
@@ -113,7 +113,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL= reverse_lazy('index')
+LOGIN_REDIRECT_URL= reverse_lazy('home')
 LOGOUT_REDIRECT_URL= reverse_lazy('login')
 
 # Static files (CSS, JavaScript, Images)

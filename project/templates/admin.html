@@ -5,34 +5,198 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static "css/table.css" %}">
+<link rel="stylesheet" href="{% static "css/accordion.css" %}">
+<link rel="stylesheet" href="{% static "css/admin.css" %}">
 {% endblock %}
 
 {% block content %}
 <div class="admin-site">
-    <div class="new-product"></div>
-    <div class="update-data-product"></div>
-    <div class="tabla">
-        <div class="orders">
-            <h4>Ordenes</h4>
+    <div class="accordion">
+        <div class="contentBx">
+            <div class="label">Añadir documento</div>
+            <div class="content">
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <input required type="text" name="nombreDocumento" placeholder="nombre del documento">
+                    <input required type="text" name="autor" placeholder="nombre del autor">
+
+                    <!--tipo de documento-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipoDocumento" value="{{selected.nombre}}" class="selected">{{selected.nombre}}</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            {% for op in tipoDocumentos %}
+                                {% if op == selected %}
+                                    <li class="active">{{op.nombre}}</li>
+                                {% else %}
+                                    <li>{{op.nombre}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <input required type="text" name="cantidad" placeholder="cantidad">
+                    <input required type="text" name="precio" placeholder="precio">
+
+                    <!--documento fisico o electronico-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipo" value="Fisico" class="selected">Fisico</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            <li class="active">Fisico</li>
+                            <li>Electronico</li>
+                        </ul>
+                    </div>
+
+                    <textarea required name="descripcion" placeholder="Descripcion del documento"></textarea>
+                    <button value="btn" name="btn-newDocument" type="submit">Guardar</button>
+
+                </form>
+            </div>
         </div>
+        <div class="contentBx">
+            <div class="label">Actualizar documento</div>
+            <div class="content">
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <!--Documentos-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipoDocumento" value="{{documentSelected.nombre}}" class="selected">{{documentSelected.nombre}}</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            {% for op in documentos %}
+                                {% if op == documentSelected %}
+                                    <li class="active">{{op.nombre}}</li>
+                                {% else %}
+                                    <li>{{op.nombre}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <input required type="text" name="nombreDocumento" placeholder="nombre del documento" value="{{documentSelected.nombre}}">
+                    <input required type="text" name="autor" placeholder="nombre del autor" value="{{documentSelected.autor}}">
+
+                    <!--tipo de documento-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipoDocumento" value="{{documentSelected.tipoDocumento}}" class="selected">{{documentSelected.tipoDocumento}}</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            {% for op in tipoDocumentos %}
+                                {% if op == documentSelected.tipoDocumento %}
+                                    <li class="active">{{op.nombre}}</li>
+                                {% else %}
+                                    <li>{{op.nombre}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <input required type="text" name="cantidad" placeholder="cantidad" value="{{documentSelected.cantidad}}">
+                    <input required type="text" name="precio" placeholder="precio" value="{{documentSelected.precio}}">
+
+                    <!--documento fisico o electronico-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipo" value="{{documentSelected.tipo}}" class="selected">{{documentSelected.tipo}}</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            {% if documentSelected.tipo == 'Fisico' %}
+                                <li class="active">Fisico</li>
+                                <li>Electronico</li>
+                            {% else %}
+                                <li>Fisico</li>
+                                <li class="active">Electronico</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <textarea required name="descripcion" id="descripcion" placeholder="Descripcion del documento">{{documentSelected.descripcion}}</textarea>
+                    <button value="btn" name="btn-updateDocument" type="submit">Guardar</button>
+
+                </form>
+            </div>
+        </div>
+        <div class="contentBx">
+            <div class="label">Eliminar documento</div>
+            <div class="content">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <!--Documentos-->
+                    <div class="dropdown">
+                        <div class="select">
+                            <span name="tipoDocumento" value="{{documentSelected.nombre}}" class="selected">{{documentSelected.nombre}}</span>
+                            <div class="caret"></div>
+                        </div>
+                        <ul class="menu">
+                            {% for op in documentos %}
+                                {% if op == documentSelected %}
+                                    <li class="active">{{op.nombre}}</li>
+                                {% else %}
+                                    <li>{{op.nombre}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <button value="btn" name="btn-deleteDocument" type="submit">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="tabla">
+        <form class="orders" method="post">
+            {% csrf_token %}
+            <h4>Ordenes</h4>
+            <button name="btn" type="submit" value="{{esCompra}}">
+                {% if esCompra %}
+                    Alquiles
+                {% else %}
+                    Compras
+                {% endif %}
+            </button>
+        </form>
         <table>
             <!--cabecera-->
             <thead>
-                <th>Nombre</th>
-                <th>precio</th>
+                <th>Documento</th>
+                <th>Cliente</th>
                 <th>cantidad</th>
                 <th>total</th>
-                <th>fecha</th>
+                {% if esCompra %}
+                    <th>fecha</th>
+                {% else %}
+                    <th>fecha Inicio</th>
+                    <th>fecha Fin</th>
+                {% endif %}
             </thead>
             <!--datos-->
             <tbody>
                 {% for order in orders %}
                     <tr id="{{order.id}}">
-                        <td>{{order.name}}</td>
-                        <td>{{order.price}}</td>
-                        <td>{{order.quantity}}</td>
+                        <td>{{order.nombre}}</td>
+                        <td>{{order.username}}</td>
+                        <td>{{order.cantidad}}</td>
                         <td>{{order.total}}</td>
-                        <td>{{order.date}}</td>
+                        {% if esCompra %}
+                            <td>{{order.fecha}}</td>
+                        {% else %}
+                            <td>{{order.fechaInicioAlquile}}</td>
+                            <td>{{order.fechaFinAlquile}}</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
@@ -40,4 +204,46 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    const accordion = document.getElementsByClassName('contentBx')
+
+    for(const op of accordion){
+        op.querySelector('.label').addEventListener('click', () => {
+            op.classList.toggle('active')
+        })
+    }
+
+    const dropdowns = document.querySelectorAll('.dropdown')
+    dropdowns.forEach(dropdown => {
+        const select = dropdown.querySelector('.select')
+        const caret = dropdown.querySelector('.caret')
+        const menu = dropdown.querySelector('.menu')
+        const options = dropdown.querySelectorAll('.menu li')
+        const selected = dropdown.querySelector('.selected')
+
+        select.addEventListener('click', () => {
+            select.classList.toggle('select-clicked')
+            caret.classList.toggle('caret-rotate')
+            menu.classList.toggle('menu-open')
+        })
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                selected.innerHTML = option.innerHTML
+                select.classList.remove('select-clicked')
+                caret.classList.remove('caret-rotate')
+                menu.classList.remove('menu-open')
+
+                options.forEach(op => {
+                    op.classList.remove('active')
+                })
+
+                option.classList.add('active')
+            })
+        })
+    })
+</script>
 {% endblock %}
