@@ -1,9 +1,9 @@
 class Sale:
 
-    def __init__(self, saleId, customerId, documentId, payMethod, quantity, price, total, date):
+    def __init__(self, saleId, customer, document, payMethod, quantity, price, total, date):
         self.__saleId = saleId
-        self.__customerId = idCustomer
-        self.__documentId = idDocument
+        self.__customer = Customer
+        self.__document = Document
         self.__payMethod = payMethod
         self.__quantity = quantity
         self.__price = price
@@ -13,11 +13,11 @@ class Sale:
     def getSaleId(self):
         return self.__saleId
 
-    def getCustomerId(self):
-        return self.__customerId
+    def getCustomer(self):
+        return self.__customer
 
-    def getDocumentId(self):
-        return self.__documentId
+    def getDocument(self):
+        return self.__document
 
     def getPayMethod(self):
         return self.__payMethod

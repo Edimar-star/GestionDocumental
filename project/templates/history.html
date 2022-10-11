@@ -1,0 +1,90 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static "css/history.css" %}">
+<link rel="stylesheet" href="{% static "css/table.css" %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="cardBox">
+        <div class="card">
+            <div class="numbers">{{total}}</div>
+            <div class="cardName">Total</div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="cash-outline"></ion-icon>
+        </div>
+    </div>
+    <div class="cardBox">
+        <div class="card">
+            <div class="numbers">{{quantity}}</div>
+            <div class="cardName">
+                {% if esCompra %}
+                Compras
+                {% else %}
+                Alquiles
+                {% endif %}
+            </div>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="cart-outline"></ion-icon>
+        </div>
+    </div>
+
+    <div class="tabla">
+        <form class="orders" method="post">
+            {% csrf_token %}
+            <h4>Ordenes</h4>
+            <button name="btn" type="submit" value="{{esCompra}}">
+                {% if esCompra %}
+                    Alquiles
+                {% else %}
+                    Compras
+                {% endif %}
+            </button>
+        </form>
+        <table>
+            <!--cabecera-->
+            <thead>
+                <th>Documento</th>
+                <th>Cliente</th>
+                <th>cantidad</th>
+                <th>total</th>
+                {% if esCompra %}
+                    <th>fecha</th>
+                {% else %}
+                    <th>fecha Inicio</th>
+                    <th>fecha Fin</th>
+                {% endif %}
+            </thead>
+            <!--datos-->
+            <tbody>
+                {% for order in orders %}
+                    <tr id="{{order.id}}">
+                        <td>{{order.nombre}}</td>
+                        <td>{{order.username}}</td>
+                        <td>{{order.cantidad}}</td>
+                        <td>{{order.total}}</td>
+                        {% if esCompra %}
+                            <td>{{order.fecha}}</td>
+                        {% else %}
+                            <td>{{order.fechaInicioAlquile}}</td>
+                            <td>{{order.fechaFinAlquile}}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+{% endblock %}

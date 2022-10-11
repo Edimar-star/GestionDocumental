@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LoginView, logout_then_login
 from django.contrib.auth.decorators import login_required
-from documents.views import home
+from sales.views import home, orders
 from loginAndRegister.views import signUp
+from admins.views import admins
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -26,5 +27,6 @@ urlpatterns = [
     path("accounts/logout/", logout_then_login, name="logout"),
     path("register/", signUp, name="signUp"),
     path("", home, name="home"),
-    path("document/", home, name="home"),
+    path("history/", orders, name="history"),
+    path("admins/", admins, name="admins"),
 ]

@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static "css/table.css" %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-site">
+    <div class="new-product"></div>
+    <div class="update-data-product"></div>
+    <div class="tabla">
+        <div class="orders">
+            <h4>Ordenes</h4>
+        </div>
+        <table>
+            <!--cabecera-->
+            <thead>
+                <th>Nombre</th>
+                <th>precio</th>
+                <th>cantidad</th>
+                <th>total</th>
+                <th>fecha</th>
+            </thead>
+            <!--datos-->
+            <tbody>
+                {% for order in orders %}
+                    <tr id="{{order.id}}">
+                        <td>{{order.name}}</td>
+                        <td>{{order.price}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.total}}</td>
+                        <td>{{order.date}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,9 +1,9 @@
 class Rent:
 
-        def __init__(self, rentId, customerId, documentId, payMethod, quantity, price, total, startDate, endDate):
+        def __init__(self, rentId, customer, document, payMethod, quantity, price, total, startDate, endDate):
         self.__rentId = rentId
-        self.__customerId = idCustomer
-        self.__documentId = idDocument
+        self.__customer = Customer
+        self.__document = Document
         self.__payMethod = payMethod
         self.__quantity = quantity
         self.__price = price
@@ -14,11 +14,11 @@ class Rent:
     def getRentId(self):
         return self.__rentId
 
-    def getCustomerId(self):
-        return self.__customerId
+    def getCustomer(self):
+        return self.__customer
 
-    def getDocumentId(self):
-        return self.__documentId
+    def getDocument(self):
+        return self.__document
 
     def getPayMethod(self):
         return self.__payMethod
