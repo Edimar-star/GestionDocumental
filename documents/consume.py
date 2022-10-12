@@ -1,31 +1,33 @@
 import requests
 import json
 
-def getInformation(url, args):
-    response = requests.get(url, params=args)
+URL_HOST = 'https://3000-edimarstar-apirest-xh8wr0qz670.ws-us70.gitpod.io'
+
+def getInformation(name, args, headers={}):
+    url = URL_HOST + name
+    response = requests.get(url, params=args, headers=headers)
     print(response)
     data = response.json()
 
     return data
 
-def postInformation(url, args):
-    response = requests.post(url, params=args)
+def postInformation(name, args, headers={}):
+    url = URL_HOST + name
+    response = requests.post(url, params=args, headers=headers)
     data = response.json()
 
     return data
 
-def deleteInformation(url, args):
-    response = requests.delete(url, params=args)
+def deleteInformation(name, args, headers={}):
+    url = URL_HOST + name
+    response = requests.delete(url, params=args, headers=headers)
     data = response.json()
 
     return data
 
-def putInformation(url, args):
-    response = requests.put(url, params=args)
+def putInformation(name, args, headers={}):
+    url = URL_HOST + name
+    response = requests.put(url, params=args, headers=headers)
     data = response.json()
 
     return data
-
-url = 'https://3000-edimarstar-apirest-xh8wr0qz670.ws-us70.gitpod.io/prueba'
-datos = getInformation(url, {"valor": "dede"})
-print(datos)

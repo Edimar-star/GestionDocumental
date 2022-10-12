@@ -1,42 +1,16 @@
 from django.shortcuts import render
 from urllib.request import urlopen
 import json
+from documents.consume import postInformation, getInformation
 
 # Create your views here.
 def home(request):
 
-    products = [
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"},
-        {"id": 1, "nombre": "producto", 
-        "descripcion" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        "price": 5000, "img": "https://unsplash.it/400/200", "type": "Fisico"}
-    ]
+    usuario = postInformation('/login', {"username" : request.user.username, "password" : request.user.password})
+    request.user.tokenSession = usuario.tokenSession
 
-    #print("Username:", request.user.username)
-    #print("Password:", request.user.password)
+    products = getInformation('/documents', {}, {"authorization" : usuario.tokenSession})
+
     return render(request, 'products.html', {"products" : products})
 
 def orders(request):
@@ -44,23 +18,14 @@ def orders(request):
     esCompra = True
     if request.method == 'POST':
         if request.POST.get('btn') == 'True':
+            orders = getInformation('/rents', {}, {"authorization" : request.user.tokenSession})
             esCompra = False
         else:
+            orders = getInformation('/purchases', {}, {"authorization" : request.user.tokenSession})
             esCompra = True
+    
+    total = 0
+    for order in orders:
+        total += order.total
 
-    orders = [
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"},
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"},
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"},
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"},
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"},
-        {"nombre": "documento","username": "John", "cantidad": 5, "total" : 75000, "fechaInicioAlquile" : "10/10/2022", "fechaFinAlquile": "10/10/2022"}
-    ]
-
-    #url = "https://rickandmortyapi.com/api/character"
-    #response = urlopen(url)
-    #data = json.loads(response.read())
-
-    #print(data)
-
-    return render(request, 'history.html', {"orders" : orders, "esCompra" : esCompra, "total": 75000, "quantity": 5 })
+    return render(request, 'history.html', {"orders" : orders, "esCompra" : esCompra, "total": total, "quantity": len(orders) })
