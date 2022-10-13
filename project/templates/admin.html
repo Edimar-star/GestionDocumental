@@ -15,7 +15,7 @@
         <div class="contentBx">
             <div class="label">Añadir documento</div>
             <div class="content">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
 
                     {% csrf_token %}
 
@@ -25,18 +25,19 @@
                     <!--tipo de documento-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipoDocumento" value="{{selected.nombre}}" class="selected">{{selected.nombre}}</span>
+                            <span class="selected">{{selected.nombreTipo}}</span>
                             <div class="caret"></div>
                         </div>
                         <ul class="menu">
                             {% for op in tipoDocumentos %}
                                 {% if op == selected %}
-                                    <li class="active">{{op.nombre}}</li>
+                                    <li value="{{op.id}}" class="active">{{op.nombreTipo}}</li>
                                 {% else %}
-                                    <li>{{op.nombre}}</li>
+                                    <li value="{{op.id}}">{{op.nombreTipo}}</li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                        <input hidden name="tipoDocumento" value="{{selected.id}}">
                     </div>
 
                     <input required type="text" name="cantidad" placeholder="cantidad">
@@ -45,17 +46,19 @@
                     <!--documento fisico o electronico-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipo" value="Fisico" class="selected">Fisico</span>
+                            <span class="selected">Fisico</span>
                             <div class="caret"></div>
                         </div>
                         <ul class="menu">
-                            <li class="active">Fisico</li>
-                            <li>Electronico</li>
+                            <li value="Fisico" class="active">Fisico</li>
+                            <li value="Electronico">Electronico</li>
                         </ul>
+                        <input hidden name="tipo" value="Fisico">
                     </div>
 
+                    <input type="file" name="file" placeholder="Seleccione el documento">
                     <textarea required name="descripcion" placeholder="Descripcion del documento"></textarea>
-                    <button value="btn" name="btn-newDocument" type="submit">Guardar</button>
+                    <button name="btn" value="btn-newDocument" type="submit">Guardar</button>
 
                 </form>
             </div>
@@ -70,62 +73,65 @@
                     <!--Documentos-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipoDocumento" value="{{documentSelected.nombre}}" class="selected">{{documentSelected.nombre}}</span>
-                            <div class="caret"></div>
+                            <span class="selected">{{documentSelected.nombre}}</span>
+                            <div value="update" class="caret"></div>
                         </div>
                         <ul class="menu">
                             {% for op in documentos %}
                                 {% if op == documentSelected %}
-                                    <li class="active">{{op.nombre}}</li>
+                                    <li id="d{{op.id}}" value="{{op.id}}" class="active">{{op.nombre}}</li>
                                 {% else %}
-                                    <li>{{op.nombre}}</li>
+                                    <li id="d{{op.id}}" value="{{op.id}}">{{op.nombre}}</li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                        <input hidden name="idDocumento" value="{{documentSelected.id}}">
                     </div>
 
-                    <input required type="text" name="nombreDocumento" placeholder="nombre del documento" value="{{documentSelected.nombre}}">
-                    <input required type="text" name="autor" placeholder="nombre del autor" value="{{documentSelected.autor}}">
+                    <input required type="text" id="nombreDocumento" name="nombreDocumento" placeholder="nombre del documento" value="{{documentSelected.nombre}}">
+                    <input required type="text" id="autor" name="autor" placeholder="nombre del autor" value="{{documentSelected.autor}}">
 
                     <!--tipo de documento-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipoDocumento" value="{{documentSelected.tipoDocumento}}" class="selected">{{documentSelected.tipoDocumento}}</span>
+                            <span class="selected">{{selected.nombreTipo}}</span>
                             <div class="caret"></div>
                         </div>
                         <ul class="menu">
                             {% for op in tipoDocumentos %}
-                                {% if op == documentSelected.tipoDocumento %}
-                                    <li class="active">{{op.nombre}}</li>
+                                {% if op == selected.nombreTipo %}
+                                    <li id="td{{op.id}}" value="{{op.id}}" class="active">{{op.nombreTipo}}</li>
                                 {% else %}
-                                    <li>{{op.nombre}}</li>
+                                    <li id="td{{op.id}}" value="{{op.id}}">{{op.nombreTipo}}</li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                        <input hidden name="tipoDocumento" value="{{selected.id}}">
                     </div>
 
-                    <input required type="text" name="cantidad" placeholder="cantidad" value="{{documentSelected.cantidad}}">
-                    <input required type="text" name="precio" placeholder="precio" value="{{documentSelected.precio}}">
+                    <input required type="text" id="cantidad" name="cantidad" placeholder="cantidad" value="{{documentSelected.cantidad}}">
+                    <input required type="text" id="precio" name="precio" placeholder="precio" value="{{documentSelected.precio}}">
 
                     <!--documento fisico o electronico-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipo" value="{{documentSelected.tipo}}" class="selected">{{documentSelected.tipo}}</span>
+                            <span class="selected">{{documentSelected.tipo}}</span>
                             <div class="caret"></div>
                         </div>
                         <ul class="menu">
                             {% if documentSelected.tipo == 'Fisico' %}
-                                <li class="active">Fisico</li>
-                                <li>Electronico</li>
+                                <li id="Fisico" value="Fisico" class="active">Fisico</li>
+                                <li id="Electronico" value="Electronico">Electronico</li>
                             {% else %}
-                                <li>Fisico</li>
-                                <li class="active">Electronico</li>
+                                <li id="Fisico" value="Fisico">Fisico</li>
+                                <li id="Electronico" value="Electronico" class="active">Electronico</li>
                             {% endif %}
                         </ul>
+                        <input hidden name="tipo" value="{{documentSelected.tipo}}">
                     </div>
 
                     <textarea required name="descripcion" id="descripcion" placeholder="Descripcion del documento">{{documentSelected.descripcion}}</textarea>
-                    <button value="btn" name="btn-updateDocument" type="submit">Guardar</button>
+                    <button name="btn" value="btn-updateDocument" type="submit">Guardar</button>
 
                 </form>
             </div>
@@ -133,26 +139,27 @@
         <div class="contentBx">
             <div class="label">Eliminar documento</div>
             <div class="content">
-                <form action="" method="post">
+                <form method="post">
                     {% csrf_token %}
                     <!--Documentos-->
                     <div class="dropdown">
                         <div class="select">
-                            <span name="tipoDocumento" value="{{documentSelected.nombre}}" class="selected">{{documentSelected.nombre}}</span>
+                            <span class="selected">{{documentSelected.nombre}}</span>
                             <div class="caret"></div>
                         </div>
                         <ul class="menu">
                             {% for op in documentos %}
                                 {% if op == documentSelected %}
-                                    <li class="active">{{op.nombre}}</li>
+                                    <li value="{{op.id}}" class="active">{{op.nombre}}</li>
                                 {% else %}
-                                    <li>{{op.nombre}}</li>
+                                    <li value="{{op.id}}">{{op.nombre}}</li>
                                 {% endif %}
                             {% endfor %}
                         </ul>
+                        <input hidden name="idDocumento" value="{{documentSelected.id}}">
                     </div>
 
-                    <button value="btn" name="btn-deleteDocument" type="submit">Eliminar</button>
+                    <button name="btn" value="btn-deleteDocument" type="submit">Eliminar</button>
                 </form>
             </div>
         </div>
@@ -172,9 +179,9 @@
         <table>
             <!--cabecera-->
             <thead>
+                <th>ID</th>
                 <th>Documento</th>
                 <th>Cliente</th>
-                <th>cantidad</th>
                 <th>total</th>
                 {% if esCompra %}
                     <th>fecha</th>
@@ -187,9 +194,9 @@
             <tbody>
                 {% for order in orders %}
                     <tr id="{{order.id}}">
+                        <td>{{order.id}}</td>
                         <td>{{order.nombre}}</td>
                         <td>{{order.username}}</td>
-                        <td>{{order.cantidad}}</td>
                         <td>{{order.total}}</td>
                         {% if esCompra %}
                             <td>{{order.fecha}}</td>
@@ -208,7 +215,23 @@
 
 {% block js %}
 <script type="text/javascript">
+    window.data = { documentos: {{ documentos|safe}}}
+</script>
+<script type="text/javascript">
+    const documentos = window.data.documentos;
     const accordion = document.getElementsByClassName('contentBx')
+
+    const searchProduct = (id) => {
+        var producto = null;
+
+        documentos.map((p) => {
+            if (p.id == id) {
+                producto = p
+            }
+        })
+
+        return producto;
+    }
 
     for(const op of accordion){
         op.querySelector('.label').addEventListener('click', () => {
@@ -223,6 +246,7 @@
         const menu = dropdown.querySelector('.menu')
         const options = dropdown.querySelectorAll('.menu li')
         const selected = dropdown.querySelector('.selected')
+        const button = dropdown.querySelector('input')
 
         select.addEventListener('click', () => {
             select.classList.toggle('select-clicked')
@@ -233,6 +257,7 @@
         options.forEach(option => {
             option.addEventListener('click', () => {
                 selected.innerHTML = option.innerHTML
+                button.setAttribute('value', option.getAttribute('value'))
                 select.classList.remove('select-clicked')
                 caret.classList.remove('caret-rotate')
                 menu.classList.remove('menu-open')
@@ -242,6 +267,21 @@
                 })
 
                 option.classList.add('active')
+
+                //Si es el de actualizar documento
+                console.log(caret.getAttribute('value'))
+                if(caret.getAttribute('value') == "update") {
+                    const idDocument = option.getAttribute('value');
+                    const producto = searchProduct(idDocument)
+                    document.getElementById('nombreDocumento').setAttribute('value', producto.nombre);
+                    document.getElementById('autor').setAttribute('value', producto.autor);
+                    document.getElementById('cantidad').setAttribute('value', producto.cantidad);
+                    document.getElementById('precio').setAttribute('value', producto.precio);
+                    document.getElementById('descripcion').innerHTML = producto.descripcion;
+
+                    document.getElementById('td' + producto.tipoDoc).click();
+                    document.getElementById(producto.tipo).click();
+                }
             })
         })
     })

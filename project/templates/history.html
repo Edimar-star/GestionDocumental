@@ -50,8 +50,8 @@
             <!--cabecera-->
             <thead>
                 <th>Documento</th>
-                <th>Cliente</th>
-                <th>cantidad</th>
+                <th>tipo documento</th>
+                <th>tipo</th>
                 <th>total</th>
                 {% if esCompra %}
                     <th>fecha</th>
@@ -65,8 +65,8 @@
                 {% for order in orders %}
                     <tr id="{{order.id}}">
                         <td>{{order.nombre}}</td>
-                        <td>{{order.username}}</td>
-                        <td>{{order.cantidad}}</td>
+                        <td>{{order.nombreTipo}}</td>
+                        <td>{{order.tipo}}</td>
                         <td>{{order.total}}</td>
                         {% if esCompra %}
                             <td>{{order.fecha}}</td>

@@ -30,14 +30,7 @@
     </div>
     {% endfor %}
 
-    <!--datos del producto seleccionado-->
-    <form hidden method="post">
-        {% csrf_token %}
-        <input id="idDocumento" name="idDocumento" type="text">
-        <input id="idCliente" name="idCliente" type="text">
-        <input id="total" name="total" type="text">
-        <input id="newOrder" name="newOrder" type="submit">
-    </form>
+    <a hidden id="enlaceArchivo" target="blank"></a>
 
 </div>
 
@@ -46,7 +39,7 @@
 {% block js %}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
-    window.data = { products: {{ products|safe}}, cliente: {{ usuario|safe}}}
+    window.data = { products: {{ products|safe}}, archivos: {{archivos|safe}}}
 </script>
-<script type="text/javascript" src="{% static "js/products.js" %}"></script>
+<script type="text/javascript" src="{% static "js/myDocuments.js" %}" ></script>
 {% endblock %}

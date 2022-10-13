@@ -9,7 +9,7 @@ def signUp(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             form.save()
-            data = postInformation('/register', {"username" : username, "password": request.user.password})
+            data = postInformation('register', {"username" : username, "password": username})
             return redirect('/accounts/login/')
     else:
         form = UserRegisterForm()
