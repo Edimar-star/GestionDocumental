@@ -4,9 +4,6 @@ from documents.models import Archivo
 
 # Create your views here.
 def admins(request):
-    return render(request, 'admin.html', {"documentos": []})
-
-def adminsT(request):
 
     usuario = postInformation('login', {"username" : request.user.username, "password" : request.user.username})
 
