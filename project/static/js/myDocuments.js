@@ -54,9 +54,11 @@ for (const op of options) {
             if (result.isConfirmed) {
                 const enlace = document.getElementById('enlaceArchivo')
                 const img = searchFile(p.id)
-                enlace.setAttribute('href', '/media/' + img.archivo)
-                enlace.setAttribute('download', img.archivo.split('/')[1])
-                enlace.click()
+                if(img) {
+                    enlace.setAttribute('href', '/media/' + img.archivo)
+                    enlace.setAttribute('download', img.archivo.split('/')[1])
+                    enlace.click()
+                }
             }
         })
     })

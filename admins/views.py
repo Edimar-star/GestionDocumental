@@ -2,15 +2,11 @@ from django.shortcuts import render, redirect
 from documents.consume import getInformation, putInformation, deleteInformation, postInformation
 from documents.models import Archivo
 
-"""def changeFilePath(instance, filename):
-    if os.path.isdir(os.path.join('uploads', instance.name)):
-        pass
-    else:
-        os.mkdir(os.path.join('uploads', instance.name))
-    return os.path.join('uploads', instance.name, filename)
-"""
 # Create your views here.
 def admins(request):
+    return render(request, 'admin.html', {"documentos": []})
+
+def adminsT(request):
 
     usuario = postInformation('login', {"username" : request.user.username, "password" : request.user.username})
 
@@ -51,12 +47,13 @@ def admins(request):
                 "descripcion": descripcion
             }, {"authorization" : usuario['tokenSession']})
 
-            archivo = Archivo()
-            archivo.idDocumento = data['id']
-            archivo.nombre = data['nombre']
-            archivo.archivo = filename
+            if filename:
+                archivo = Archivo()
+                archivo.idDocumento = data['id']
+                archivo.nombre = data['nombre']
+                archivo.archivo = filename
 
-            archivo.save()
+                archivo.save()
 
         
         elif request.POST.get('btn') == 'btn-updateDocument':

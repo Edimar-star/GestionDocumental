@@ -68,7 +68,7 @@
     flex-direction: column;
 }
 
-.accordion .contentBx .content form input[type="text"], textarea {
+.accordion .contentBx .content form input[type="text"], input[type="file"], textarea {
     width: 80%;
     margin: 1em;
     height: 70px;

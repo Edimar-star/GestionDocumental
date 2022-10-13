@@ -1,7 +1,7 @@
 import requests
 import json
 
-URL_HOST = 'http://127.0.0.1:3000/'
+URL_HOST = 'https://apirest-production-ce4b.up.railway.app/'
 
 def getInformation(name, args, headers={}):
     url = URL_HOST + name
